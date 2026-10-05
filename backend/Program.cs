@@ -2,8 +2,9 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using SweetFactory.Data;
-using SweetFactory.Services;
+using SweetFactory.Infrastructure.Persistence;
+using SweetFactory.Infrastructure.Authentication;
+using SweetFactory.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         throw new InvalidOperationException("DatabaseProvider must be SqlServer or Sqlite.");
 });
 builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<WorkerService>();
+builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<WorkEntryService>();
 var frontendOrigins = builder.Configuration.GetSection("FrontendOrigins").Get<string[]>()
     ?? ["http://localhost:5173", "http://127.0.0.1:5173"];
 builder.Services.AddCors(options => options.AddPolicy("frontend", policy =>

@@ -4,6 +4,8 @@
 
 ## البنية
 
+تفاصيل تقسيم الطبقات والميزات وقواعد تنظيم الملفات موضحة في [ARCHITECTURE.md](ARCHITECTURE.md).
+
 - `backend`: ASP.NET Core Web API، JWT، صلاحيات Admin/Worker، وSQL Server للسيرفر، مع دعم SQLite للتطوير المحلي.
 - `frontend`: React + Vite، واجهة عربية RTL ومسارات محمية حسب الصلاحية.
 
