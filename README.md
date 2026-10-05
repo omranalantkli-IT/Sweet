@@ -19,23 +19,23 @@ Copy-Item backend\appsettings.example.json backend\appsettings.json
 
 ## إعداد SQL Server على السيرفر
 
-اضبط `DatabaseProvider` إلى `SqlServer` في إعدادات السيرفر، وعيّن `ConnectionStrings:DefaultConnection` باسم SQL Server الفعلي. للإنتاج استخدم `ASPNETCORE_ENVIRONMENT=Production`؛ إعدادات Development تستخدم `(localdb)\MSSQLLocalDB` مع Windows Authentication وقاعدة `BittarSweets`.
+اضبط `DatabaseProvider` إلى `SqlServer` في إعدادات السيرفر، وعيّن `ConnectionStrings:DefaultConnection` باسم SQL Server الفعلي. للإنتاج استخدم `ASPNETCORE_ENVIRONMENT=Production`؛ إعدادات Development تستخدم `(localdb)\MSSQLLocalDB` مع Windows Authentication وقاعدة `sweet`.
 
 LocalDB للتطوير المحلي فقط ويعمل ضمن حساب Windows الحالي، وليس بديلًا عن خدمة SQL Server على سيرفر الإنتاج. `TrustServerCertificate=True` موجود في إعداد التطوير المحلي فقط. يمكن الرجوع إلى SQLite بتعيين `DatabaseProvider=Sqlite` وسلسلة الاتصال `Data Source=sweet-factory.db`.
 
 مثال Windows Authentication:
 
 ```text
-Server=YOUR_SQL_SERVER;Database=BittarSweets;Integrated Security=True;Encrypt=True;TrustServerCertificate=False
+Server=YOUR_SQL_SERVER;Database=sweet;Integrated Security=True;Encrypt=True;TrustServerCertificate=False
 ```
 
 مثال SQL Authentication (احفظ كلمة المرور في متغير البيئة `ConnectionStrings__DefaultConnection` وليس في Git):
 
 ```text
-Server=YOUR_SQL_SERVER;Database=BittarSweets;User Id=YOUR_USER;Password=YOUR_PASSWORD;Encrypt=True;TrustServerCertificate=False
+Server=YOUR_SQL_SERVER;Database=sweet;User Id=YOUR_USER;Password=YOUR_PASSWORD;Encrypt=True;TrustServerCertificate=False
 ```
 
-يجب منح حساب التطبيق الصلاحيات اللازمة لإنشاء قاعدة جديدة وجداولها عند التشغيل الأول. استخدم قاعدة `BittarSweets` جديدة فارغة؛ لا يغيّر التطبيق مخطط قاعدة موجودة تلقائيًا. استخدم شهادة TLS موثوقة، ولا تعتمد `TrustServerCertificate=True` في الإنتاج. بيانات SQLite القديمة لا تُنقل تلقائيًا، وملفاتها محفوظة محليًا وغير مرفوعة.
+يجب منح حساب التطبيق الصلاحيات اللازمة لإنشاء قاعدة جديدة وجداولها عند التشغيل الأول. استخدم قاعدة `sweet` جديدة فارغة؛ لا يغيّر التطبيق مخطط قاعدة موجودة تلقائيًا. استخدم شهادة TLS موثوقة، ولا تعتمد `TrustServerCertificate=True` في الإنتاج. بيانات SQLite القديمة لا تُنقل تلقائيًا، وملفاتها محفوظة محليًا وغير مرفوعة.
 
 ## تشغيل التطبيق
 
