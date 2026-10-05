@@ -8,18 +8,35 @@ public static class DbSeeder
 {
     public static async Task SeedAsync(AppDbContext db, IConfiguration configuration)
     {
-        if (!await db.Users.AnyAsync())
+        var adminUsername = configuration["SeedAdmin:Username"] ?? "admin";
+        var adminPassword = configuration["SeedAdmin:Password"] ?? "Admin@123";
+        var adminFullName = configuration["SeedAdmin:FullName"] ?? "مدير المعمل";
+
+        var admin = await db.Users.FirstOrDefaultAsync(x => x.Username == adminUsername);
+
+        if (admin is null)
         {
-            var admin = new User
+            admin = new User
             {
-                FullName = configuration["SeedAdmin:FullName"] ?? "مدير المعمل",
-                Username = configuration["SeedAdmin:Username"] ?? "admin",
+                FullName = adminFullName,
+                Username = adminUsername,
                 PasswordHash = string.Empty,
                 Role = "Admin"
             };
+
             admin.PasswordHash = new PasswordHasher<User>().HashPassword(
-                admin, configuration["SeedAdmin:Password"] ?? "Admin@123");
+                admin,
+                adminPassword);
+
             db.Users.Add(admin);
+        }
+        else
+        {
+            admin.FullName = adminFullName;
+            admin.Role = "Admin";
+            admin.PasswordHash = new PasswordHasher<User>().HashPassword(
+                admin,
+                adminPassword);
         }
 
         if (!await db.Products.AnyAsync())
